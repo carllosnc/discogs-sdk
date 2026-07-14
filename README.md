@@ -98,7 +98,15 @@ console.log(list.items[0]?.display_title);
 
 ### Custom HTTP client
 
-You can inject your own `HttpClient` for tests, tracing, caching, proxies, or custom runtimes.
+Use `baseURL` for tests, proxies, or mock servers while keeping the default fetch client.
+
+```ts
+const discogs = new DiscogsClient({
+  baseURL: "https://proxy.example.com/discogs/",
+});
+```
+
+You can also inject your own `HttpClient` for tracing, caching, or custom runtimes.
 
 ```ts
 const discogs = new DiscogsClient({ httpClient });

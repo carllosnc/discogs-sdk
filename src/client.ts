@@ -9,6 +9,7 @@ export interface DiscogsClientConfig {
   token?: string;
   authHeader?: string;
   userAgent?: string;
+  baseURL?: string;
   retry?: boolean | RetryConfig;
   httpClient?: HttpClient;
 }
@@ -37,7 +38,7 @@ export class DiscogsClient {
       }
 
       let client: HttpClient = new FetchAdapter({
-        baseURL: "https://api.discogs.com/",
+        baseURL: config.baseURL ?? "https://api.discogs.com/",
         headers,
       });
 
