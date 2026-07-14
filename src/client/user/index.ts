@@ -1,5 +1,6 @@
-﻿import { type HttpClient } from "../../http/types.js";
+import { type HttpClient } from "../../http/types.js";
 import {
+  type DiscogsCollectionFieldsResponse,
   type DiscogsCollectionFoldersResponse,
   type DiscogsCollectionItemsParams,
   type DiscogsCollectionItemsResponse,
@@ -25,6 +26,11 @@ export class UserClient {
 
   async getCollectionFolders(username: string): Promise<DiscogsCollectionFoldersResponse> {
     const response = await this.httpClient.get<DiscogsCollectionFoldersResponse>(`users/${username}/collection/folders`);
+    return response.data;
+  }
+
+  async getCollectionFields(username: string): Promise<DiscogsCollectionFieldsResponse> {
+    const response = await this.httpClient.get<DiscogsCollectionFieldsResponse>(`users/${username}/collection/fields`);
     return response.data;
   }
 

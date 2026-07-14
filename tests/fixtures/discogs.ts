@@ -1,4 +1,5 @@
 import {
+  type DiscogsCollectionFieldsResponse,
   type DiscogsMarketplaceStats,
   type DiscogsRelease,
   type DiscogsSearchResponse,
@@ -182,3 +183,23 @@ export const marketplaceStatsFixture = {
   },
   blocked_from_sale: false,
 } satisfies DiscogsMarketplaceStats;
+export const collectionFieldsFixture = {
+  fields: [
+    {
+      id: 1,
+      name: "Media Condition",
+      type: "dropdown",
+      position: 1,
+      public: false,
+      options: ["Mint (M)", "Near Mint (NM or M-)", "Very Good Plus (VG+)"],
+    },
+    {
+      id: 3,
+      name: "Notes",
+      type: "textarea",
+      position: 3,
+      public: false,
+      lines: 3,
+    },
+  ],
+} satisfies DiscogsCollectionFieldsResponse;

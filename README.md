@@ -60,6 +60,13 @@ console.log(stats.num_for_sale);
 console.log(stats.lowest_price?.value, stats.lowest_price?.currency);
 ```
 
+### Collection fields
+
+```ts
+const fields = await discogs.user.getCollectionFields("carllosnc");
+
+console.log(fields.fields.map((field) => field.name));
+```
 ### Custom HTTP client
 
 You can inject your own `HttpClient` for tests, tracing, caching, proxies, or custom runtimes.
@@ -138,5 +145,3 @@ Live tests use `DISCOGS_TOKEN` when it is present in the environment and are ski
 
 - [Discogs developer documentation](https://www.discogs.com/developers)
 - [Discogs API root](https://api.discogs.com/)
-
-
