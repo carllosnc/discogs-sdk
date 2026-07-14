@@ -1,4 +1,4 @@
-﻿import { type DiscogsPaginatedResponse, type DiscogsPaginationParams, type DiscogsSortOrder } from "./common.js";
+import { type DiscogsPaginatedResponse, type DiscogsPaginationParams, type DiscogsSortOrder } from "./common.js";
 import { type DiscogsRelease, type DiscogsSearchResult } from "./database.js";
 
 export interface DiscogsIdentity {
@@ -43,6 +43,22 @@ export interface DiscogsCollectionFolder {
 
 export interface DiscogsCollectionFoldersResponse {
   folders: DiscogsCollectionFolder[];
+}
+
+export type DiscogsCollectionFieldType = "dropdown" | "textarea" | "text" | "checkbox" | string;
+
+export interface DiscogsCollectionField {
+  id: number;
+  name: string;
+  type: DiscogsCollectionFieldType;
+  position: number;
+  public: boolean;
+  options?: string[];
+  lines?: number;
+}
+
+export interface DiscogsCollectionFieldsResponse {
+  fields: DiscogsCollectionField[];
 }
 
 export interface DiscogsCollectionItem {

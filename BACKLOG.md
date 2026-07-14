@@ -26,7 +26,7 @@ This backlog is based on the current SDK shape and spot checks against the Disco
 
 ## P1 - Expand Read API Coverage
 
-- [ ] Add collection field endpoints.
+- [x] Add collection field endpoints.
   - Endpoints: `users/{username}/collection/fields`.
   - Why: collection item metadata depends on custom fields.
   - Acceptance: expose `user.getCollectionFields(username)` with typed field definitions and tests.
