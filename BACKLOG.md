@@ -41,15 +41,16 @@ This backlog is based on the current SDK shape and spot checks against the Disco
   - Why: Discogs lists are a common discovery and curation feature missing from the SDK.
   - Acceptance: expose list summaries and list item reads with pagination.
 
-- [ ] Add marketplace search/browse helpers.
+- [ ] Add marketplace search/browse helpers. _(Blocked: `marketplace/search` currently returns 404 and the official docs page is Cloudflare-blocked in automation; revisit if Discogs exposes a listing discovery endpoint.)_
   - Endpoints: marketplace listing search endpoints where available.
   - Why: the SDK can inspect a listing by id, but cannot yet discover listings.
   - Acceptance: expose typed params for release, condition, currency, seller, sorting, and pagination.
 
-- [ ] Add order endpoints for sellers/buyers.
+- [x] Add order endpoints for sellers/buyers.
   - Endpoints: marketplace order endpoints.
   - Why: authenticated commerce workflows require order reads and updates.
   - Acceptance: typed order reads first; mutating operations can be added behind explicit method names.
+  - Done: added paginated order reads, order detail reads, and order message reads.
 
 ## P2 - Improve Runtime Ergonomics
 

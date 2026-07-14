@@ -4,6 +4,9 @@ import {
   type DiscogsUserList,
   type DiscogsUserListsResponse,
   type DiscogsMarketplaceStats,
+  type DiscogsOrder,
+  type DiscogsOrderMessagesResponse,
+  type DiscogsOrdersResponse,
   type DiscogsRelease,
   type DiscogsSearchResponse,
 } from "../../src/index.js";
@@ -262,3 +265,76 @@ export const userListFixture = {
     },
   ],
 } satisfies DiscogsUserList;
+export const ordersFixture = {
+  pagination: {
+    page: 1,
+    pages: 1,
+    per_page: 1,
+    items: 1,
+    urls: {},
+  },
+  orders: [
+    {
+      id: "1-1",
+      resource_url: "https://api.discogs.com/marketplace/orders/1-1",
+      messages_url: "https://api.discogs.com/marketplace/orders/1-1/messages",
+      status: "Payment Received",
+      created: "2026-01-01T10:00:00-03:00",
+      last_activity: "2026-01-02T11:00:00-03:00",
+      fee: { value: 1.23, currency: "USD" },
+      total: { value: 19.99, currency: "USD" },
+      buyer: {
+        id: 100,
+        username: "buyer",
+        resource_url: "https://api.discogs.com/users/buyer",
+      },
+      seller: {
+        id: 200,
+        username: "seller",
+        resource_url: "https://api.discogs.com/users/seller",
+      },
+      items: [
+        {
+          id: 123,
+          release: {
+            id: 249504,
+            description: "Rick Astley - Never Gonna Give You Up",
+            resource_url: "https://api.discogs.com/releases/249504",
+          },
+          price: { value: 12.99, currency: "USD" },
+          media_condition: "Very Good Plus (VG+)",
+          sleeve_condition: "Very Good (VG)",
+        },
+      ],
+      shipping: {
+        value: 7,
+        currency: "USD",
+        method: "Standard",
+      },
+      archived: false,
+    },
+  ],
+} satisfies DiscogsOrdersResponse;
+
+export const orderFixture = ordersFixture.orders[0] satisfies DiscogsOrder;
+
+export const orderMessagesFixture = {
+  messages: [
+    {
+      id: 1,
+      type: "message",
+      subject: "Order update",
+      message: "Thanks for your order.",
+      timestamp: "2026-01-02T11:00:00-03:00",
+      actor: {
+        id: 200,
+        username: "seller",
+        resource_url: "https://api.discogs.com/users/seller",
+      },
+      order: {
+        id: "1-1",
+        resource_url: "https://api.discogs.com/marketplace/orders/1-1",
+      },
+    },
+  ],
+} satisfies DiscogsOrderMessagesResponse;
