@@ -1,7 +1,12 @@
 import { describe, expect, mock, test } from "bun:test";
 import { UserClient } from "../src/client/user/index.js";
 import { type HttpClient } from "../src/http/types.js";
-import { collectionFieldsFixture, collectionFieldValueFixture } from "./fixtures/discogs.js";
+import {
+  collectionFieldsFixture,
+  collectionFieldValueFixture,
+  userListFixture,
+  userListsFixture,
+} from "./fixtures/discogs.js";
 
 const get = mock(async (): Promise<any> => Promise.resolve({ data: {} }));
 const post = mock(async (): Promise<any> => Promise.resolve({ data: {} }));
@@ -67,5 +72,39 @@ describe("UserClient", () => {
     expect(get).toHaveBeenCalledWith("users/carllosnc/collection/folders/0/releases", {
       params: { per_page: 10, sort_order: "desc" },
     });
+  });
+
+  test("gets user lists with pagination", async () => {
+    const client = createClient();
+    await client.getLists("discogs", { page: 2, perPage: 10 });
+    expect(get).toHaveBeenCalledWith("users/discogs/lists", {
+      params: { page: 2, per_page: 10 },
+    });
+  });
+
+  test("returns fixture-backed user lists", async () => {
+    get.mockResolvedValueOnce({ data: userListsFixture });
+    const client = createClient();
+
+    const response = await client.getLists("discogs", { perPage: 1 });
+
+    expect(response.pagination.items).toBe(185);
+    expect(response.lists[0]?.name).toContain("Most expensive items");
+  });
+
+  test("gets list by id", async () => {
+    const client = createClient();
+    await client.getList(1338741);
+    expect(get).toHaveBeenCalledWith("lists/1338741");
+  });
+
+  test("returns fixture-backed list items", async () => {
+    get.mockResolvedValueOnce({ data: userListFixture });
+    const client = createClient();
+
+    const response = await client.getList(1338741);
+
+    expect(response.items[0]?.display_title).toBe("Gila (2) - Gila");
+    expect(response.items[0]?.stats?.community?.in_wantlist).toBe(1352);
   });
 });

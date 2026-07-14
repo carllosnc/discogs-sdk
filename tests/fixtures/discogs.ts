@@ -1,6 +1,8 @@
 import {
   type DiscogsCollectionFieldValueResponse,
   type DiscogsCollectionFieldsResponse,
+  type DiscogsUserList,
+  type DiscogsUserListsResponse,
   type DiscogsMarketplaceStats,
   type DiscogsRelease,
   type DiscogsSearchResponse,
@@ -208,3 +210,55 @@ export const collectionFieldsFixture = {
 export const collectionFieldValueFixture = {
   value: "Near Mint (NM or M-)",
 } satisfies DiscogsCollectionFieldValueResponse;
+export const userListsFixture = {
+  pagination: {
+    page: 1,
+    pages: 185,
+    per_page: 1,
+    items: 185,
+    urls: {
+      last: "https://api.discogs.com/users/discogs/lists?per_page=1&page=185",
+      next: "https://api.discogs.com/users/discogs/lists?per_page=1&page=2",
+    },
+  },
+  lists: [
+    {
+      id: 1338741,
+      user: {
+        id: 1000,
+        username: "discogs",
+        resource_url: "https://api.discogs.com/users/discogs",
+        avatar_url: "https://i.discogs.com/user.jpeg",
+      },
+      name: "Most expensive items sold in Discogs Marketplace for June 2023",
+      description: "",
+      public: true,
+      date_added: "2023-08-03T08:15:04-03:00",
+      date_changed: "2026-02-27T11:40:10-03:00",
+      uri: "https://www.discogs.com/lists/Most-expensive-items-sold-in-Discogs-Marketplace-for-June-2023/1338741",
+      resource_url: "https://api.discogs.com/lists/1338741",
+      image_url: "",
+    },
+  ],
+} satisfies DiscogsUserListsResponse;
+
+export const userListFixture = {
+  ...userListsFixture.lists[0],
+  items: [
+    {
+      type: "release",
+      id: 3410965,
+      comment: "Sold for $769.00",
+      uri: "https://www.discogs.com/release/3410965-Gila-Gila",
+      resource_url: "https://api.discogs.com/releases/3410965",
+      image_url: "",
+      display_title: "Gila (2) - Gila",
+      stats: {
+        community: {
+          in_wantlist: 1352,
+          in_collection: 450,
+        },
+      },
+    },
+  ],
+} satisfies DiscogsUserList;

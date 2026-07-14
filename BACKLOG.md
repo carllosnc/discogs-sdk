@@ -36,7 +36,7 @@ This backlog is based on the current SDK shape and spot checks against the Disco
   - Why: apps that display a collection need access to user-specific field values.
   - Acceptance: expose read/update helpers if allowed by auth, with fixture-backed tests.
 
-- [ ] Add user list endpoints.
+- [x] Add user list endpoints.
   - Endpoints: `users/{username}/lists`, `lists/{list_id}`.
   - Why: Discogs lists are a common discovery and curation feature missing from the SDK.
   - Acceptance: expose list summaries and list item reads with pagination.
