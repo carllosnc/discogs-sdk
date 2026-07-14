@@ -1,6 +1,7 @@
-﻿import { describe, expect, mock, test } from "bun:test";
+import { describe, expect, mock, test } from "bun:test";
 import { MarketplaceClient } from "../src/client/marketplace/index.js";
 import { type HttpClient } from "../src/http/types.js";
+import { marketplaceStatsFixture } from "./fixtures/discogs.js";
 
 const get = mock(() => Promise.resolve({ data: {} }));
 
@@ -20,6 +21,16 @@ describe("MarketplaceClient", () => {
     const client = createClient();
     await client.getReleaseStats(456);
     expect(get).toHaveBeenCalledWith("marketplace/stats/456");
+  });
+
+  test("returns fixture-backed marketplace stats", async () => {
+    get.mockResolvedValueOnce({ data: marketplaceStatsFixture });
+    const client = createClient();
+
+    const response = await client.getReleaseStats(249504);
+
+    expect(response.num_for_sale).toBe(122);
+    expect(response.lowest_price?.currency).toBe("USD");
   });
 
   test("gets price suggestions", async () => {

@@ -1,9 +1,10 @@
-﻿import { describe, expect, mock, test } from "bun:test";
+import { describe, expect, mock, test } from "bun:test";
 import { DatabaseClient } from "../src/client/database/index.js";
 import { type HttpClient } from "../src/http/types.js";
 import { DiscogsClient } from "../src/index.js";
+import { releaseFixture, searchResponseFixture } from "./fixtures/discogs.js";
 
-const get = mock(() =>
+const get = mock(async (): Promise<any> =>
   Promise.resolve({
     data: {
       pagination: { page: 1, pages: 1, per_page: 50, items: 0 },
@@ -38,10 +39,31 @@ describe("DatabaseClient", () => {
     expect(response.pagination.page).toBe(1);
   });
 
+  test("returns fixture-backed search payloads", async () => {
+    get.mockResolvedValueOnce({ data: searchResponseFixture });
+    const client = createClient();
+
+    const response = await client.search({ query: "Daft Punk Discovery", type: "release" });
+
+    expect(response.results[0]?.community?.want).toBe(21955);
+    expect(response.results[0]?.formats?.[0]?.descriptions).toContain("LP");
+  });
+
   test("gets release by id", async () => {
     const client = createClient();
     await client.getRelease(249504);
     expect(get).toHaveBeenCalledWith("releases/249504");
+  });
+
+  test("returns fixture-backed release payloads", async () => {
+    get.mockResolvedValueOnce({ data: releaseFixture });
+    const client = createClient();
+
+    const response = await client.getRelease(249504);
+
+    expect(response.community?.rating?.average).toBe(3.84);
+    expect(response.identifiers?.[0]?.type).toBe("Barcode");
+    expect(response.videos?.[0]?.duration).toBe(214);
   });
 
   test("gets master versions with pagination", async () => {

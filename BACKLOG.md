@@ -14,12 +14,12 @@ This backlog is based on the current SDK shape and spot checks against the Disco
   - Why: the client supports token and raw OAuth headers, but users need clear setup paths.
   - Acceptance: README examples cover personal token and OAuth header usage without exposing secrets.
 
-- [ ] Finish type coverage for release, master, artist, label, and search payloads.
+- [x] Finish type coverage for release, master, artist, label, and search payloads.
   - Endpoints: `database/search`, `releases/{id}`, `masters/{id}`, `artists/{id}`, `labels/{id}`.
   - Why: several rich nested fields are currently typed as `unknown`.
   - Acceptance: replace common `unknown` fields with reusable types for companies, labels, formats, identifiers, videos, ratings, and community data.
 
-- [ ] Add integration test fixtures from real Discogs responses.
+- [x] Add integration test fixtures from real Discogs responses.
   - Endpoints: public database and marketplace read endpoints.
   - Why: live tests are useful but optional; fixtures catch type drift without a token.
   - Acceptance: fixtures cover at least one search result, one release, and one marketplace stats response.
@@ -106,5 +106,3 @@ This backlog is based on the current SDK shape and spot checks against the Disco
 - [x] User client for identity, profile, collection folders/items, and wantlist.
 - [x] Inventory client for user inventory reads.
 - [x] Bun test coverage for current clients.
-
-

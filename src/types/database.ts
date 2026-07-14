@@ -1,4 +1,4 @@
-﻿import { type DiscogsPaginatedResponse, type DiscogsPaginationParams } from "./common.js";
+import { type DiscogsPaginatedResponse, type DiscogsPaginationParams } from "./common.js";
 
 export type DiscogsSearchType = "release" | "master" | "artist" | "label";
 
@@ -41,6 +41,9 @@ export interface DiscogsSearchResult {
   style?: string[];
   catno?: string;
   barcode?: string[];
+  community?: Pick<DiscogsCommunity, "have" | "want">;
+  format_quantity?: number;
+  formats?: DiscogsFormat[];
 }
 
 export type DiscogsSearchResponse = DiscogsPaginatedResponse<DiscogsSearchResult>;
@@ -62,6 +65,56 @@ export interface DiscogsArtistSummary {
   role?: string;
   tracks?: string;
   resource_url?: string;
+  thumbnail_url?: string;
+}
+
+export interface DiscogsReleaseEntity {
+  id?: number;
+  name: string;
+  catno?: string;
+  entity_type?: string;
+  entity_type_name?: string;
+  resource_url?: string;
+  thumbnail_url?: string;
+}
+
+export interface DiscogsFormat {
+  name: string;
+  qty?: string;
+  text?: string;
+  descriptions?: string[];
+}
+
+export interface DiscogsIdentifier {
+  type: string;
+  value: string;
+  description?: string;
+}
+
+export interface DiscogsVideo {
+  uri: string;
+  title: string;
+  description?: string;
+  duration?: number;
+  embed?: boolean;
+}
+
+export interface DiscogsCommunityUser {
+  username: string;
+  resource_url: string;
+}
+
+export interface DiscogsCommunity {
+  have: number;
+  want: number;
+  rating?: {
+    count: number;
+    average: number;
+  };
+  submitter?: DiscogsCommunityUser;
+  contributors?: DiscogsCommunityUser[];
+  data_quality?: string;
+  status?: string;
 }
 
 export interface DiscogsTrack {
@@ -76,21 +129,22 @@ export interface DiscogsRelease {
   id: number;
   title: string;
   artists: DiscogsArtistSummary[];
+  artists_sort?: string;
   data_quality?: string;
   thumb?: string;
-  community?: unknown;
-  companies?: unknown[];
+  community?: DiscogsCommunity;
+  companies?: DiscogsReleaseEntity[];
   country?: string;
   date_added?: string;
   date_changed?: string;
   estimated_weight?: number;
   extraartists?: DiscogsArtistSummary[];
   format_quantity?: number;
-  formats?: unknown[];
+  formats?: DiscogsFormat[];
   genres?: string[];
-  identifiers?: unknown[];
+  identifiers?: DiscogsIdentifier[];
   images?: DiscogsImage[];
-  labels?: unknown[];
+  labels?: DiscogsReleaseEntity[];
   lowest_price?: number;
   master_id?: number;
   master_url?: string;
@@ -99,13 +153,15 @@ export interface DiscogsRelease {
   released?: string;
   released_formatted?: string;
   resource_url: string;
-  series?: unknown[];
+  series?: DiscogsReleaseEntity[];
   status?: string;
   styles?: string[];
   tracklist?: DiscogsTrack[];
   uri?: string;
-  videos?: unknown[];
+  videos?: DiscogsVideo[];
   year?: number;
+  blocked_from_sale?: boolean;
+  is_offensive?: boolean;
 }
 
 export interface DiscogsMaster {
@@ -126,7 +182,7 @@ export interface DiscogsMaster {
   tracklist?: DiscogsTrack[];
   uri?: string;
   versions_url?: string;
-  videos?: unknown[];
+  videos?: DiscogsVideo[];
   year?: number;
 }
 
