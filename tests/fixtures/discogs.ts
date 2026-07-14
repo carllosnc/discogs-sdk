@@ -1,4 +1,5 @@
 import {
+  type DiscogsCollectionFieldValueResponse,
   type DiscogsCollectionFieldsResponse,
   type DiscogsMarketplaceStats,
   type DiscogsRelease,
@@ -203,3 +204,7 @@ export const collectionFieldsFixture = {
     },
   ],
 } satisfies DiscogsCollectionFieldsResponse;
+
+export const collectionFieldValueFixture = {
+  value: "Near Mint (NM or M-)",
+} satisfies DiscogsCollectionFieldValueResponse;

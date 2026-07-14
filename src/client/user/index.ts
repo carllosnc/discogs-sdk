@@ -1,5 +1,7 @@
 import { type HttpClient } from "../../http/types.js";
 import {
+  type DiscogsCollectionFieldValue,
+  type DiscogsCollectionFieldValueResponse,
   type DiscogsCollectionFieldsResponse,
   type DiscogsCollectionFoldersResponse,
   type DiscogsCollectionItemsParams,
@@ -34,6 +36,34 @@ export class UserClient {
     return response.data;
   }
 
+  async getCollectionFieldValue(
+    username: string,
+    folderId: number,
+    releaseId: number,
+    instanceId: number,
+    fieldId: number,
+  ): Promise<DiscogsCollectionFieldValueResponse> {
+    const response = await this.httpClient.get<DiscogsCollectionFieldValueResponse>(
+      this.collectionFieldValuePath(username, folderId, releaseId, instanceId, fieldId),
+    );
+    return response.data;
+  }
+
+  async updateCollectionFieldValue(
+    username: string,
+    folderId: number,
+    releaseId: number,
+    instanceId: number,
+    fieldId: number,
+    value: DiscogsCollectionFieldValue,
+  ): Promise<DiscogsCollectionFieldValueResponse> {
+    const response = await this.httpClient.post<DiscogsCollectionFieldValueResponse>(
+      this.collectionFieldValuePath(username, folderId, releaseId, instanceId, fieldId),
+      { value },
+    );
+    return response.data;
+  }
+
   async getCollectionItems(
     username: string,
     folderId: number | "all" = 0,
@@ -51,5 +81,15 @@ export class UserClient {
       params: buildQueryParams(params),
     });
     return response.data;
+  }
+
+  private collectionFieldValuePath(
+    username: string,
+    folderId: number,
+    releaseId: number,
+    instanceId: number,
+    fieldId: number,
+  ): string {
+    return `users/${username}/collection/folders/${folderId}/releases/${releaseId}/instances/${instanceId}/fields/${fieldId}`;
   }
 }

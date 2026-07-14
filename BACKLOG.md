@@ -31,7 +31,7 @@ This backlog is based on the current SDK shape and spot checks against the Disco
   - Why: collection item metadata depends on custom fields.
   - Acceptance: expose `user.getCollectionFields(username)` with typed field definitions and tests.
 
-- [ ] Add collection value endpoints.
+- [x] Add collection value endpoints.
   - Endpoints: `users/{username}/collection/folders/{folder_id}/releases/{release_id}/instances/{instance_id}/fields/{field_id}`.
   - Why: apps that display a collection need access to user-specific field values.
   - Acceptance: expose read/update helpers if allowed by auth, with fixture-backed tests.
