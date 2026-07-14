@@ -1,4 +1,4 @@
-import { type DiscogsPaginatedResponse, type DiscogsPaginationParams, type DiscogsSortOrder } from "./common.js";
+import { type DiscogsPaginatedResponse, type DiscogsPagination, type DiscogsPaginationParams, type DiscogsSortOrder } from "./common.js";
 import { type DiscogsRelease, type DiscogsSearchResult } from "./database.js";
 
 export interface DiscogsIdentity {
@@ -32,6 +32,13 @@ export interface DiscogsUserProfile {
   uri?: string;
   avatar_url?: string;
   banner_url?: string;
+}
+
+export interface DiscogsUserSummary {
+  id: number;
+  username: string;
+  resource_url: string;
+  avatar_url?: string;
 }
 
 export interface DiscogsCollectionFolder {
@@ -86,6 +93,50 @@ export interface DiscogsCollectionItemsParams extends DiscogsPaginationParams {
 }
 
 export type DiscogsCollectionItemsResponse = DiscogsPaginatedResponse<DiscogsCollectionItem>;
+
+export type DiscogsUserListsParams = DiscogsPaginationParams;
+
+export interface DiscogsUserListSummary {
+  id: number;
+  user: DiscogsUserSummary;
+  name: string;
+  description: string;
+  public: boolean;
+  date_added: string;
+  date_changed: string;
+  uri: string;
+  resource_url: string;
+  image_url?: string;
+}
+
+export interface DiscogsUserListsResponse {
+  pagination: DiscogsPagination;
+  lists: DiscogsUserListSummary[];
+}
+
+export type DiscogsListItemType = "release" | "master" | "artist" | "label" | string;
+
+export interface DiscogsListItemCommunityStats {
+  in_wantlist?: number;
+  in_collection?: number;
+}
+
+export interface DiscogsListItem {
+  type: DiscogsListItemType;
+  id: number;
+  comment?: string;
+  uri: string;
+  resource_url: string;
+  image_url?: string;
+  display_title: string;
+  stats?: {
+    community?: DiscogsListItemCommunityStats;
+  };
+}
+
+export interface DiscogsUserList extends DiscogsUserListSummary {
+  items: DiscogsListItem[];
+}
 
 export interface DiscogsWantlistItem {
   id: number;

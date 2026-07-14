@@ -11,7 +11,7 @@ This package is early-stage (`0.1.0`). It already covers the core read paths for
 - `database`: search, releases, masters, master versions, artists, artist releases, labels, and label releases.
 - `marketplace`: listing details, release marketplace stats, and price suggestions.
 - `inventory`: user inventory reads.
-- `user`: identity, public profile, collection folders/items, and wantlist.
+- `user`: identity, public profile, collection folders/items, lists, and wantlist.
 
 The next planned work is tracked in [BACKLOG.md](./BACKLOG.md).
 
@@ -66,6 +66,15 @@ console.log(stats.lowest_price?.value, stats.lowest_price?.currency);
 const fields = await discogs.user.getCollectionFields("carllosnc");
 
 console.log(fields.fields.map((field) => field.name));
+```
+### User lists
+
+```ts
+const lists = await discogs.user.getLists("discogs", { perPage: 5 });
+const list = await discogs.user.getList(lists.lists[0]!.id);
+
+console.log(list.name);
+console.log(list.items[0]?.display_title);
 ```
 ### Custom HTTP client
 

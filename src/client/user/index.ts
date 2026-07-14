@@ -7,6 +7,9 @@ import {
   type DiscogsCollectionItemsParams,
   type DiscogsCollectionItemsResponse,
   type DiscogsIdentity,
+  type DiscogsUserList,
+  type DiscogsUserListsParams,
+  type DiscogsUserListsResponse,
   type DiscogsUserProfile,
   type DiscogsWantlistParams,
   type DiscogsWantlistResponse,
@@ -73,6 +76,18 @@ export class UserClient {
       `users/${username}/collection/folders/${folderId}/releases`,
       { params: buildQueryParams(params) },
     );
+    return response.data;
+  }
+
+  async getLists(username: string, params?: DiscogsUserListsParams): Promise<DiscogsUserListsResponse> {
+    const response = await this.httpClient.get<DiscogsUserListsResponse>(`users/${username}/lists`, {
+      params: buildQueryParams(params),
+    });
+    return response.data;
+  }
+
+  async getList(listId: number): Promise<DiscogsUserList> {
+    const response = await this.httpClient.get<DiscogsUserList>(`lists/${listId}`);
     return response.data;
   }
 
