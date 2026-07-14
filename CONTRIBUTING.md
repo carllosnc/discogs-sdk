@@ -45,7 +45,7 @@ Live Discogs tests are optional and only run when `DISCOGS_TOKEN` is present.
 
 ## Review and merge
 
-`main` is protected. Changes should merge through PRs after CI passes and required approval is present.
+`main` is protected. Changes merge through PRs after required CI passes. PRs opened by `carllosnc` are automatically set to squash auto-merge; PRs from other authors require manual merge by a maintainer.
 
 Prefer squash merge for small PRs and regular merge only when preserving multiple meaningful commits helps review or release notes.
 
