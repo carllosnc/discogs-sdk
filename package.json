@@ -1,4 +1,4 @@
-﻿{
+{
   "name": "@carlosnc/discogs-sdk",
   "publishConfig": {
     "access": "public"
@@ -64,12 +64,12 @@
   "devDependencies": {
     "@types/bun": "latest",
     "typedoc": "^0.28.19",
-    "typescript": "^6.0.3"
+    "typescript": "^7.0.2"
   },
   "engines": {
     "node": ">=18"
   },
   "peerDependencies": {
-    "typescript": "^5.0.0 || ^6.0.0"
+    "typescript": "^5.0.0 || ^6.0.0 || ^7.0.0"
   }
 }
