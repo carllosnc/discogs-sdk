@@ -1,9 +1,14 @@
-﻿import { type HttpClient } from "../../http/types.js";
+import { type HttpClient } from "../../http/types.js";
 import {
   type DiscogsListing,
   type DiscogsMarketplaceStats,
+  type DiscogsOrder,
+  type DiscogsOrderMessagesResponse,
+  type DiscogsOrdersParams,
+  type DiscogsOrdersResponse,
   type DiscogsPriceSuggestions,
 } from "../../types/marketplace.js";
+import { buildQueryParams } from "../../utils/query.js";
 
 export class MarketplaceClient {
   constructor(private httpClient: HttpClient) {}
@@ -20,6 +25,23 @@ export class MarketplaceClient {
 
   async getPriceSuggestions(releaseId: number): Promise<DiscogsPriceSuggestions> {
     const response = await this.httpClient.get<DiscogsPriceSuggestions>(`marketplace/price_suggestions/${releaseId}`);
+    return response.data;
+  }
+
+  async getOrders(params?: DiscogsOrdersParams): Promise<DiscogsOrdersResponse> {
+    const response = await this.httpClient.get<DiscogsOrdersResponse>("marketplace/orders", {
+      params: buildQueryParams(params),
+    });
+    return response.data;
+  }
+
+  async getOrder(orderId: string | number): Promise<DiscogsOrder> {
+    const response = await this.httpClient.get<DiscogsOrder>(`marketplace/orders/${orderId}`);
+    return response.data;
+  }
+
+  async getOrderMessages(orderId: string | number): Promise<DiscogsOrderMessagesResponse> {
+    const response = await this.httpClient.get<DiscogsOrderMessagesResponse>(`marketplace/orders/${orderId}/messages`);
     return response.data;
   }
 }

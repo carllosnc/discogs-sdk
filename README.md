@@ -1,5 +1,7 @@
 # Discogs SDK
 
+[![CI](https://github.com/carllosnc/discogs-sdk/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/carllosnc/discogs-sdk/actions/workflows/ci.yml)
+
 A lightweight, fully typed TypeScript client for the [Discogs API](https://www.discogs.com/developers).
 
 The project wraps the Discogs API v2 base URL, `https://api.discogs.com/`, with small namespace clients for the parts most useful to apps that search music metadata, inspect marketplace data, and read authenticated user data.
@@ -9,7 +11,7 @@ The project wraps the Discogs API v2 base URL, `https://api.discogs.com/`, with 
 This package is early-stage (`0.1.0`). It already covers the core read paths for:
 
 - `database`: search, releases, masters, master versions, artists, artist releases, labels, and label releases.
-- `marketplace`: listing details, release marketplace stats, and price suggestions.
+- `marketplace`: listing details, release marketplace stats, price suggestions, and authenticated order reads.
 - `inventory`: user inventory reads.
 - `user`: identity, public profile, collection folders/items, lists, and wantlist.
 
@@ -60,6 +62,22 @@ console.log(stats.num_for_sale);
 console.log(stats.lowest_price?.value, stats.lowest_price?.currency);
 ```
 
+### Marketplace orders
+
+```ts
+const orders = await discogs.marketplace.getOrders({
+  status: "Payment Received",
+  sort: "created",
+  sortOrder: "desc",
+  perPage: 10,
+});
+
+const order = await discogs.marketplace.getOrder(orders.orders[0]!.id);
+const messages = await discogs.marketplace.getOrderMessages(order.id);
+
+console.log(order.status);
+console.log(messages.messages.length);
+```
 ### Collection fields
 
 ```ts
@@ -67,6 +85,7 @@ const fields = await discogs.user.getCollectionFields("carllosnc");
 
 console.log(fields.fields.map((field) => field.name));
 ```
+
 ### User lists
 
 ```ts
@@ -76,6 +95,7 @@ const list = await discogs.user.getList(lists.lists[0]!.id);
 console.log(list.name);
 console.log(list.items[0]?.display_title);
 ```
+
 ### Custom HTTP client
 
 You can inject your own `HttpClient` for tests, tracing, caching, proxies, or custom runtimes.
@@ -97,6 +117,7 @@ console.log(response.rateLimit); // { limit, remaining, used }
 ```
 
 Typed Discogs errors also expose `error.rateLimit` when the API includes those headers.
+
 ## Authentication
 
 Create a local `.env` from `.env.example` and set your personal Discogs token:
