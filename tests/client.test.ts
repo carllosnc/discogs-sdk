@@ -19,4 +19,29 @@ describe("DiscogsClient", () => {
     expect(client.marketplace).toBeDefined();
     expect(client.user).toBeDefined();
   });
+
+  test("uses configured base URL for default fetch client", async () => {
+    const originalFetch = globalThis.fetch;
+    const fetchCalls: string[] = [];
+    globalThis.fetch = ((input: RequestInfo | URL) => {
+      fetchCalls.push(String(input));
+      return Promise.resolve(
+        new Response(JSON.stringify({ id: 1 }), {
+          status: 200,
+          statusText: "OK",
+          headers: { "content-type": "application/json" },
+        }),
+      );
+    }) as typeof fetch;
+
+    try {
+      const client = new DiscogsClient({ baseURL: "https://example.test/discogs/" });
+
+      await client.database.getRelease(1);
+
+      expect(fetchCalls[0]).toBe("https://example.test/discogs/releases/1");
+    } finally {
+      globalThis.fetch = originalFetch;
+    }
+  });
 });

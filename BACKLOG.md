@@ -54,9 +54,10 @@ This backlog is based on the current SDK shape and spot checks against the Disco
 
 ## P2 - Improve Runtime Ergonomics
 
-- [ ] Add an optional `baseURL` config.
+- [x] Add an optional `baseURL` config.
   - Why: tests, proxies, and future mock servers should not need a custom `HttpClient` for a different base URL.
   - Acceptance: default remains `https://api.discogs.com/`; tests prove override behavior.
+  - Done: `DiscogsClientConfig.baseURL` overrides the default fetch adapter base URL.
 
 - [ ] Add pagination helpers.
   - Endpoints: all paginated endpoints.
