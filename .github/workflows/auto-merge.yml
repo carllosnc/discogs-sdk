@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   enable:
-    if: ${{ !github.event.pull_request.draft }}
+    if: ${{ !github.event.pull_request.draft && github.event.pull_request.user.login == 'carllosnc' }}
     runs-on: ubuntu-latest
     steps:
       - name: Enable auto-merge after required checks pass
