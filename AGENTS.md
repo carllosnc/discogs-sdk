@@ -50,8 +50,10 @@ Live Discogs tests are optional and depend on `DISCOGS_TOKEN`; do not require a 
 - For SDK behavior changes, include or update tests in the same commit.
 - For public API changes, update `README.md`, `BACKLOG.md`, or examples in the same branch.
 - Open PRs against `main` with a concise summary, validation notes, and any API compatibility impact.
+- Expect branch protection on `main`: PR required, CI required, one approving review required, and CODEOWNERS review required.
 - Do not force-push shared branches unless the user explicitly asks.
 - When pushing, use the configured `origin` remote for `carllosnc/discogs-sdk`.
+- Publish releases by pushing semver tags like `v0.1.1`; the release workflow expects `NPM_TOKEN` in repository secrets.
 
 ## Discogs API Notes
 
