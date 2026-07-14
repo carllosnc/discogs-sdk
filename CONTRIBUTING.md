@@ -10,7 +10,7 @@ Create short-lived branches from `main`:
 - `test/<short-name>` for test-only changes.
 - `ci/<short-name>` for workflow changes.
 
-Keep branches focused. If a change needs unrelated refactors, split it.
+Keep branches focused. If a change needs unrelated refactors, split it. Delete merged branches; the repository is configured to delete PR branches after merge.
 
 ## Commits
 
