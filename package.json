@@ -1,0 +1,75 @@
+﻿{
+  "name": "@carlosnc/discogs-sdk",
+  "publishConfig": {
+    "access": "public"
+  },
+  "version": "0.1.0",
+  "description": "A lightweight, fully-typed TypeScript client for the Discogs API",
+  "license": "MIT",
+  "author": "carllosnc",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carllosnc/discogs-sdk.git"
+  },
+  "homepage": "https://github.com/carllosnc/discogs-sdk#readme",
+  "keywords": [
+    "discogs",
+    "music",
+    "api",
+    "client",
+    "typescript",
+    "sdk"
+  ],
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./sveltekit": {
+      "import": {
+        "types": "./dist/adapters/sveltekit.d.ts",
+        "default": "./dist/adapters/sveltekit.js"
+      }
+    },
+    "./nextjs": {
+      "import": {
+        "types": "./dist/adapters/nextjs.d.ts",
+        "default": "./dist/adapters/nextjs.js"
+      }
+    },
+    "./*": {
+      "import": {
+        "types": "./dist/*.d.ts",
+        "default": "./dist/*.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "prepublishOnly": "bun run build",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "bun test",
+    "docs": "typedoc"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "typedoc": "^0.28.19",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0 || ^6.0.0"
+  }
+}
