@@ -61,6 +61,16 @@ export interface DiscogsCollectionFieldsResponse {
   fields: DiscogsCollectionField[];
 }
 
+export type DiscogsCollectionFieldValue = string | number | boolean | null;
+
+export interface DiscogsCollectionFieldValueResponse {
+  value: DiscogsCollectionFieldValue;
+}
+
+export interface DiscogsUpdateCollectionFieldValuePayload {
+  value: DiscogsCollectionFieldValue;
+}
+
 export interface DiscogsCollectionItem {
   id: number;
   instance_id: number;
