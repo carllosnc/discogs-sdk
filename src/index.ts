@@ -9,6 +9,16 @@ export {
 } from "./http/index.js";
 export { withRetry, type RetryConfig } from "./utils/retry.js";
 export {
+  getNextPageParams,
+  getPreviousPageParams,
+  hasNextPage,
+  hasPreviousPage,
+  paginateDiscogs,
+  type DiscogsPage,
+  type DiscogsPageFetcher,
+  type DiscogsPageItems,
+} from "./utils/pagination.js";
+export {
   DiscogsClientError,
   DiscogsError,
   DiscogsForbiddenError,

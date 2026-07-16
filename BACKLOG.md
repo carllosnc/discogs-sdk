@@ -59,10 +59,11 @@ This backlog is based on the current SDK shape and spot checks against the Disco
   - Acceptance: default remains `https://api.discogs.com/`; tests prove override behavior.
   - Done: `DiscogsClientConfig.baseURL` overrides the default fetch adapter base URL.
 
-- [ ] Add pagination helpers.
+- [x] Add pagination helpers.
   - Endpoints: all paginated endpoints.
   - Why: Discogs responses include `pagination.urls`; consumers repeatedly need `next page` or `iterate all`.
   - Acceptance: provide a tiny helper or async iterator without changing existing methods.
+  - Done: exported adjacent-page helpers and a generic async iterator for paginated SDK responses.
 
 - [ ] Normalize query parameter naming in public docs.
   - Endpoints: all methods with `sortOrder`, `perPage`, and similar camelCase params.
