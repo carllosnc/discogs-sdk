@@ -106,6 +106,20 @@ export function parseDiscogsErrorBody(data: unknown): DiscogsErrorBody | null {
   return null;
 }
 
+function buildDiscogsErrorMessage(status: number, discogsMessage: string | null, fallbackMessage: string): string {
+  const baseMessage = discogsMessage ? `Discogs API error (${status}): ${discogsMessage}` : fallbackMessage;
+
+  if (status === 401) {
+    return `${baseMessage}. Authentication failed; configure a valid Discogs personal access token or OAuth Authorization header.`;
+  }
+
+  if (status === 403) {
+    return `${baseMessage}. Access was forbidden; check that the token has access to this account/resource and that authenticated endpoints are called as the resource owner when required.`;
+  }
+
+  return baseMessage;
+}
+
 export function createDiscogsError(info: DiscogsErrorInfo): DiscogsError {
   const { status, body, url, message, rateLimit } = info;
   const discogsMessage =
@@ -114,7 +128,7 @@ export function createDiscogsError(info: DiscogsErrorInfo): DiscogsError {
       : typeof body?.error === "string"
         ? body.error
         : null;
-  const errorMessage = discogsMessage ? `Discogs API error (${status}): ${discogsMessage}` : message;
+  const errorMessage = buildDiscogsErrorMessage(status, discogsMessage, message);
 
   switch (status) {
     case 400:

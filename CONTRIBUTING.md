@@ -22,7 +22,7 @@ Use Conventional Commits:
 - `test: add marketplace fixtures`
 - `ci: update release workflow`
 
-Do not commit `.env`, tokens, `node_modules/`, or `dist/`.
+Do not commit `.env`, tokens, `node_modules/`, or `dist/`. Build output in `dist/` is generated locally for validation and package publishing, but the repository keeps it ignored to avoid generated diffs.
 
 ## Pull requests
 
@@ -39,6 +39,7 @@ Expected validation for code changes:
 bun run typecheck
 bun test
 bun run build
+bun run docs
 ```
 
 Live Discogs tests are optional and only run when `DISCOGS_TOKEN` is present.

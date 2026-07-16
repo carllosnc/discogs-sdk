@@ -59,11 +59,10 @@
     "prepublishOnly": "bun run build",
     "typecheck": "tsc -p tsconfig.json",
     "test": "bun test",
-    "docs": "typedoc"
+    "docs": "bun run scripts/generate-api-docs.ts"
   },
   "devDependencies": {
     "@types/bun": "latest",
-    "typedoc": "^0.28.19",
     "typescript": "^7.0.2"
   },
   "engines": {
