@@ -96,6 +96,18 @@ console.log(list.name);
 console.log(list.items[0]?.display_title);
 ```
 
+### Query parameter naming
+
+SDK request params use TypeScript-friendly camelCase. The client converts them to the snake_case names expected by Discogs before sending the HTTP request.
+
+| SDK param | Discogs query param |
+| --- | --- |
+| `perPage` | `per_page` |
+| `sortOrder` | `sort_order` |
+| `releaseTitle` | `release_title` |
+
+Discogs params that are already short or lowercase, such as `page`, `sort`, `query`, `type`, `catno`, and `barcode`, keep the same name.
+
 ### Pagination helpers
 
 Use `getNextPageParams` when you want to request adjacent pages manually, or `paginateDiscogs` to iterate through every item from any paginated endpoint.
