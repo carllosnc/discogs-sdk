@@ -96,6 +96,22 @@ console.log(list.name);
 console.log(list.items[0]?.display_title);
 ```
 
+### Pagination helpers
+
+Use `getNextPageParams` when you want to request adjacent pages manually, or `paginateDiscogs` to iterate through every item from any paginated endpoint.
+
+```ts
+import { paginateDiscogs } from "@carlosnc/discogs-sdk";
+
+for await (const release of paginateDiscogs(
+  (params) => discogs.database.search({ query: "ambient", type: "release", ...params }),
+  (page) => page.results,
+  { perPage: 50 },
+)) {
+  console.log(release.title);
+}
+```
+
 ### Custom HTTP client
 
 Use `baseURL` for tests, proxies, or mock servers while keeping the default fetch client.
