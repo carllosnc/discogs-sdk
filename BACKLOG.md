@@ -65,10 +65,11 @@ This backlog is based on the current SDK shape and spot checks against the Disco
   - Acceptance: provide a tiny helper or async iterator without changing existing methods.
   - Done: exported adjacent-page helpers and a generic async iterator for paginated SDK responses.
 
-- [ ] Normalize query parameter naming in public docs.
+- [x] Normalize query parameter naming in public docs.
   - Endpoints: all methods with `sortOrder`, `perPage`, and similar camelCase params.
   - Why: SDK params are camelCase while Discogs params are snake_case.
   - Acceptance: README documents the mapping and tests cover every mapped key.
+  - Done: README documents camelCase-to-snake_case query params and tests cover current mapped keys.
 
 - [ ] Improve error messages for authentication failures.
   - Endpoints: authenticated endpoints.
