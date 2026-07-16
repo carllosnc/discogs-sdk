@@ -41,10 +41,11 @@ This backlog is based on the current SDK shape and spot checks against the Disco
   - Why: Discogs lists are a common discovery and curation feature missing from the SDK.
   - Acceptance: expose list summaries and list item reads with pagination.
 
-- [ ] Add marketplace search/browse helpers. _(Blocked: `marketplace/search` currently returns 404 and the official docs page is Cloudflare-blocked in automation; revisit if Discogs exposes a listing discovery endpoint.)_
+- [x] Add marketplace search/browse helpers. _(Resolved as not supported by the official API docs.)_
   - Endpoints: marketplace listing search endpoints where available.
   - Why: the SDK can inspect a listing by id, but cannot yet discover listings.
   - Acceptance: expose typed params for release, condition, currency, seller, sorting, and pagination.
+  - Done: official Discogs documentation exposes listing detail/create/edit/delete, but no marketplace listing search/browse endpoint; SDK keeps listing-by-id support and does not add a fabricated helper.
 
 - [x] Add order endpoints for sellers/buyers.
   - Endpoints: marketplace order endpoints.
@@ -71,35 +72,41 @@ This backlog is based on the current SDK shape and spot checks against the Disco
   - Acceptance: README documents the mapping and tests cover every mapped key.
   - Done: README documents camelCase-to-snake_case query params and tests cover current mapped keys.
 
-- [ ] Improve error messages for authentication failures.
+- [x] Improve error messages for authentication failures.
   - Endpoints: authenticated endpoints.
   - Why: 401/403 errors should tell users whether token/auth header setup is likely missing.
   - Acceptance: errors keep status/body/url and add a clear message for auth failures.
+  - Done: 401 and 403 errors now preserve status/body/url metadata and add token/permission setup guidance.
 
-- [ ] Add abort/timeout examples.
+- [x] Add abort/timeout examples.
   - Endpoints: all API calls through `FetchAdapter`.
   - Why: `signal` is supported at the HTTP layer but not documented at SDK level.
   - Acceptance: README or examples show `AbortController` usage.
+  - Done: README and `examples/abort-timeout.ts` show `AbortController` usage through the HTTP layer.
 
 ## P3 - Packaging and Documentation
 
-- [ ] Publish generated API docs.
+- [x] Publish generated API docs.
   - Tooling: `typedoc`.
   - Why: package consumers need a browsable reference for namespaces and response types.
   - Acceptance: `bun run docs` output is publishable and linked from README.
+  - Done: `bun run docs` generates `docs/api.md`; TypeDoc is not used because current TypeDoc supports TypeScript up to 6.x while this project uses TypeScript 7.
 
-- [ ] Add more examples.
+- [x] Add more examples.
   - Examples: search by barcode, fetch release marketplace stats, inspect collection folders, read wantlist.
   - Why: examples are the fastest way to validate SDK ergonomics.
   - Acceptance: each example is small, typed, and runnable with `bun`.
+  - Done: added barcode search, marketplace stats, collection folders, wantlist, and abort/timeout examples.
 
-- [ ] Add contribution notes.
+- [x] Add contribution notes.
   - Why: the project has tests and build scripts but no contributor workflow.
   - Acceptance: document setup, test commands, live-test token behavior, and style expectations.
+  - Done: `CONTRIBUTING.md` documents branch, commit, PR, validation, live-test, review, merge, and release workflows.
 
-- [ ] Decide whether `dist/` should stay committed.
+- [x] Decide whether `dist/` should stay committed.
   - Why: the repository currently includes build output; this affects diffs and release flow.
   - Acceptance: document the decision or update `.gitignore` and release process.
+  - Done: `dist/` stays ignored and untracked; build output is generated for validation and publishing, not committed.
 
 ## Done
 

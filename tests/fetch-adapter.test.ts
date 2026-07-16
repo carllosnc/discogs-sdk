@@ -1,5 +1,5 @@
 import { describe, expect, test } from "bun:test";
-import { DiscogsNotFoundError } from "../src/errors.js";
+import { DiscogsForbiddenError, DiscogsNotFoundError, DiscogsUnauthorizedError } from "../src/errors.js";
 import { FetchAdapter } from "../src/http/fetch-adapter.js";
 
 function withMockedFetch(mockFetch: typeof fetch, testFn: () => Promise<void>) {
@@ -68,6 +68,59 @@ describe("FetchAdapter", () => {
           expect(error).toBeInstanceOf(DiscogsNotFoundError);
           expect((error as DiscogsNotFoundError).discogsMessage).toBe("not found");
           expect((error as DiscogsNotFoundError).rateLimit).toEqual({ limit: 60, remaining: 58, used: 2 });
+        }
+      },
+    ),
+  );
+  test(
+    "adds setup guidance to authentication failures",
+    withMockedFetch(
+      ((() =>
+        Promise.resolve(
+          new Response(JSON.stringify({ message: "You must authenticate to access this resource." }), {
+            status: 401,
+            statusText: "Unauthorized",
+            headers: { "content-type": "application/json" },
+          }),
+        )) as unknown) as typeof fetch,
+      async () => {
+        const client = new FetchAdapter({ baseURL: "https://api.discogs.com/" });
+
+        try {
+          await client.get("oauth/identity");
+          throw new Error("Expected request to fail");
+        } catch (error) {
+          expect(error).toBeInstanceOf(DiscogsUnauthorizedError);
+          expect((error as Error).message).toContain("configure a valid Discogs personal access token");
+          expect((error as DiscogsUnauthorizedError).status).toBe(401);
+          expect((error as DiscogsUnauthorizedError).discogsMessage).toBe("You must authenticate to access this resource.");
+        }
+      },
+    ),
+  );
+
+  test(
+    "adds permission guidance to forbidden failures",
+    withMockedFetch(
+      ((() =>
+        Promise.resolve(
+          new Response(JSON.stringify({ message: "You don't have permission to access this resource." }), {
+            status: 403,
+            statusText: "Forbidden",
+            headers: { "content-type": "application/json" },
+          }),
+        )) as unknown) as typeof fetch,
+      async () => {
+        const client = new FetchAdapter({ baseURL: "https://api.discogs.com/" });
+
+        try {
+          await client.get("users/example/wants");
+          throw new Error("Expected request to fail");
+        } catch (error) {
+          expect(error).toBeInstanceOf(DiscogsForbiddenError);
+          expect((error as Error).message).toContain("check that the token has access");
+          expect((error as DiscogsForbiddenError).status).toBe(403);
+          expect((error as DiscogsForbiddenError).discogsMessage).toBe("You don't have permission to access this resource.");
         }
       },
     ),

@@ -107,4 +107,19 @@ describe("UserClient", () => {
     expect(response.items[0]?.display_title).toBe("Gila (2) - Gila");
     expect(response.items[0]?.stats?.community?.in_wantlist).toBe(1352);
   });
+  test("gets user wantlist with pagination", async () => {
+    get.mockResolvedValueOnce({
+      data: {
+        pagination: { page: 1, pages: 1, per_page: 5, items: 0 },
+        wants: [],
+      },
+    });
+    const client = createClient();
+    const response = await client.getWantlist("discogs", { perPage: 5 });
+
+    expect(get).toHaveBeenCalledWith("users/discogs/wants", {
+      params: { per_page: 5 },
+    });
+    expect(response.wants).toEqual([]);
+  });
 });

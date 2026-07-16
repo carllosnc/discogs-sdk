@@ -124,6 +124,26 @@ for await (const release of paginateDiscogs(
 }
 ```
 
+### Abort and timeout
+
+Every request accepts an `AbortSignal` through the low-level HTTP client. Use it for request timeouts or cancellation.
+
+```ts
+const controller = new AbortController();
+const timeout = setTimeout(() => controller.abort(), 5000);
+
+try {
+  const response = await discogs.http.get("database/search", {
+    params: { q: "Boards of Canada", type: "release", per_page: 5 },
+    signal: controller.signal,
+  });
+
+  console.log(response.data);
+} finally {
+  clearTimeout(timeout);
+}
+```
+
 ### Custom HTTP client
 
 Use `baseURL` for tests, proxies, or mock servers while keeping the default fetch client.
@@ -203,11 +223,29 @@ bun install
 bun run typecheck
 bun test
 bun run build
+# optional: generate docs/api.md
+bun run docs
 ```
 
 Live tests use `DISCOGS_TOKEN` when it is present in the environment and are skipped otherwise.
+
+Generated API docs are written to [docs/api.md](./docs/api.md). Build output in `dist/` is generated locally and intentionally not committed.
+
+Runnable examples live in [examples](./examples):
+
+```bash
+bun run examples/search.ts
+bun run examples/barcode-search.ts
+bun run examples/marketplace-stats.ts
+bun run examples/collection-folders.ts
+bun run examples/wantlist.ts
+bun run examples/abort-timeout.ts
+```
+
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for branch, PR, validation, and release workflow notes.
 
 ## API References
 
 - [Discogs developer documentation](https://www.discogs.com/developers)
 - [Discogs API root](https://api.discogs.com/)
+- [Generated SDK API reference](./docs/api.md)

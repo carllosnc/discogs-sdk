@@ -152,4 +152,7 @@ export interface DiscogsWantlistParams extends DiscogsPaginationParams {
   sortOrder?: DiscogsSortOrder;
 }
 
-export type DiscogsWantlistResponse = DiscogsPaginatedResponse<DiscogsWantlistItem>;
+export interface DiscogsWantlistResponse {
+  pagination: DiscogsPagination;
+  wants: DiscogsWantlistItem[];
+}
