@@ -52,15 +52,27 @@ Prefer squash merge for small PRs and regular merge only when preserving multipl
 
 ## Releases
 
-Releases are tag-driven. To publish:
+Releases are published automatically when code lands on `main`. The release workflow runs for changes to source, tests, examples, scripts, package metadata, TypeScript config, Bun lockfile, or the release workflow itself.
 
-1. Update `package.json` and `CHANGELOG.md`.
-2. Merge the release PR into `main`.
-3. Create and push a semver tag, e.g. `v0.1.1`.
+On each eligible `main` push, GitHub Actions:
 
-```bash
-git tag v0.1.1
-git push origin v0.1.1
-```
+1. Installs dependencies with Bun.
+2. Runs typecheck, tests, and build.
+3. Runs `npm pack --dry-run` to verify the package contents.
+4. Reads the latest published npm version for `@carlosnc/discogs-sdk`.
+5. Publishes the next patch version to npm through Trusted Publishing/OIDC.
+6. Creates and pushes a matching semver tag, e.g. `v0.1.1`.
 
-The release workflow publishes to npm when `NPM_TOKEN` is configured in GitHub Actions secrets.
+The repository `package.json` version is treated as the initial fallback version. After the first publish, npm is the source of truth for calculating the next patch version.
+
+Before the workflow can publish, configure the package trusted publisher on npmjs.com:
+
+- Publisher: GitHub Actions.
+- Organization or user: `carllosnc`.
+- Repository: `discogs-sdk`.
+- Workflow filename: `release.yml`.
+- Allowed actions: `npm publish`.
+
+Trusted Publishing uses short-lived OIDC credentials instead of a long-lived npm access token. After the first successful Trusted Publishing release, remove or restrict any old npm automation token that is no longer needed.
+
+Manual publishing should only be used to recover from a failed release.
