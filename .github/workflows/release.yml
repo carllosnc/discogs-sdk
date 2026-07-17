@@ -49,7 +49,7 @@ jobs:
           else
             next_version="$(node -e "const [major, minor, patch] = process.argv[1].split('.').map(Number); console.log([major, minor, patch + 1].join('.'))" "$published_version")"
           fi
-          npm version "$next_version" --no-git-tag-version
+          npm pkg set version="$next_version"
           echo "version=$next_version" >> "$GITHUB_OUTPUT"
       - run: npm pack --dry-run
       - name: Publish to npm with trusted publishing
